@@ -18,6 +18,8 @@ on:
       - frontend/**
   pull_request:
     branches: [ "main" ]
+    paths:
+      - frontend/**
   schedule:
     - cron: '29 16 * * 4'
 

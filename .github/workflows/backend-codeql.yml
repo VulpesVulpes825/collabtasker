@@ -18,6 +18,8 @@ on:
       - backend/**
   pull_request:
     branches: [ "main" ]
+    paths:
+      - backend/**
   schedule:
     - cron: '29 16 * * 4'
 
