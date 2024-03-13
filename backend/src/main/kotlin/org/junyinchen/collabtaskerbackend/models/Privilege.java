@@ -2,9 +2,14 @@ package org.junyinchen.collabtaskerbackend.models;
 
 import jakarta.persistence.*;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Collection;
 
 @Entity
+@Data
+@NoArgsConstructor
 public class Privilege {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
