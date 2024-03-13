@@ -1,0 +1,19 @@
+server:
+    servlet:
+        context-path: /api
+spring:
+    application:
+        name: collabtasker-backend
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+    mvc:
+        format:
+            date-time: iso
+    security:
+        user:
+            password: Test12345_
