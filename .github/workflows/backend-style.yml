@@ -6,10 +6,9 @@ on:
     paths:
       - backend/**
   pull_request:
-    types:
-      - opened
+    branches: [ "main" ]
     paths:
-      - backend/**
+      - frontend/**
   schedule:
     - cron: '28 5 * * 6'
 
