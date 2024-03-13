@@ -16,10 +16,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Entity
 @Table
-public class Todo {
+public class TodoItem {
     /**
     * The id of the item in UUID
     */
