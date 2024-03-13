@@ -8,7 +8,6 @@ import lombok.extern.java.Log;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 @Log
 @Getter
 @Setter
