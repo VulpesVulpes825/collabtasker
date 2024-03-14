@@ -2,9 +2,9 @@ package org.junyinchen.collabtaskerbackend.models;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    @NonNull private String name;
 
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
@@ -30,6 +30,10 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
+
+    public Role(@NotNull String name) {
+        this.name = name;
+    }
 
     public List<SimpleGrantedAuthority> getAuthorities() {
         var authorities =
