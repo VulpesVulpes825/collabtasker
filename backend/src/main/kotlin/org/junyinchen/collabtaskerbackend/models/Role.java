@@ -5,7 +5,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -26,4 +30,13 @@ public class Role {
             joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
+
+    public List<SimpleGrantedAuthority> getAuthorities() {
+        var authorities =
+                getPrivileges().stream()
+                        .map(privilege -> new SimpleGrantedAuthority(privilege.getName()))
+                        .collect(Collectors.toList());
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name));
+        return authorities;
+    }
 }

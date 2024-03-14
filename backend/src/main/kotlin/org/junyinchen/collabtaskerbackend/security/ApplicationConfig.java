@@ -1,6 +1,6 @@
 package org.junyinchen.collabtaskerbackend.security;
 
-import org.junyinchen.collabtaskerbackend.repositories.UserRepo;
+import org.junyinchen.collabtaskerbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,10 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class ApplicationConfig {
-    private final UserRepo repo;
+    private final UserRepository repo;
 
     @Autowired
-    public ApplicationConfig(UserRepo repo) {
+    public ApplicationConfig(UserRepository repo) {
         this.repo = repo;
     }
 
