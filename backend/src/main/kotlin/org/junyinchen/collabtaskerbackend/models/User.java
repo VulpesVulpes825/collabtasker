@@ -2,9 +2,7 @@ package org.junyinchen.collabtaskerbackend.models;
 
 import jakarta.persistence.*;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +10,7 @@ import java.util.Collection;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
