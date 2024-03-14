@@ -1,4 +1,4 @@
-package org.junyinchen.collabtaskerbackend.security;
+package org.junyinchen.collabtaskerbackend.services;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
