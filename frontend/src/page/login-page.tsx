@@ -1,5 +1,6 @@
 import { Button, Form, type FormProps, Input, Typography } from "antd";
 import AuthService from "../helper/authentication.ts";
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -8,17 +9,21 @@ interface FieldType {
   password?: string;
 }
 
-const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-  console.log("Success:", values);
-  AuthService.login(values.username, values.password);
-};
-
-const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
-
 export default function LoginPage() {
+  const navigate = useNavigate();
+
+  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+    console.log("Success:", values);
+    AuthService.login(values.username, values.password).then(() => {
+        navigate("/dashboard");
+      }
+    ).catch(console.error("Something went wrong"));
+  };
+
+  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
       <Title>Login</Title>

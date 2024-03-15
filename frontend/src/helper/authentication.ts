@@ -39,10 +39,14 @@ class AuthService {
   }
 
   getCurrentUser() {
-    const userStr = localStorage.getItem("user");
-    if (userStr) return JSON.parse(userStr);
+    const userStr = this.cookies.get("jwt_authorization");
+    if (userStr) return userStr;
 
     return null;
+  }
+
+  isLoggedIn() {
+    return this.cookies.get("jwt_authorization") !== undefined;
   }
 }
 
