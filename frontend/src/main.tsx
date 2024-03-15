@@ -6,6 +6,7 @@ import "./index.css";
 import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews, useInitial } from "./dev";
 import ErrorPage from "./page/error-page.tsx";
+import LoginPage from "./page/login-page.tsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/test",
     element: <App />
+  },
+  {
+    path: "/login",
+    element: <LoginPage />
   }
 ]);
 
