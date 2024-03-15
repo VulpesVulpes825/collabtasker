@@ -5,16 +5,18 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews, useInitial } from "./dev";
+import ErrorPage from "./page/error-page.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <h1>Hello World.</h1>,
+    errorElement: <ErrorPage />
   },
   {
     path: "/test",
-    element: <App />,
-  },
+    element: <App />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -25,5 +27,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     >
       <RouterProvider router={router} />
     </DevSupport>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
