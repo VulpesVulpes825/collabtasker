@@ -17,25 +17,35 @@ class AuthService {
     console.log(response);
     if (response.data.token) {
       const token: string = response.data.token;
-      const decoded = jwtDecode(token);
-      console.log(decoded);
-      this.cookies.set("jwt_authorization", token, {
-        expires: new Date(decoded.exp * 1000)
-      });
+      this.storeJwt(token);
     }
   }
+
+  storeJwt(token: string) {
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+    this.cookies.set("jwt_authorization", token, {
+      expires: new Date(decoded.exp * 1000)
+    });
+  }
+
 
   logout() {
     this.cookies.remove("jwt_authorization");
   }
 
-  register(username: string, firstName: string, lastName: string, password: string) {
-    return axios.post(API_URL + "register", {
+  async register(username: string, firstName: string, lastName: string, password: string) {
+    const response = await axios.post(API_URL + "register", {
       username,
       firstName,
       lastName,
       password
     });
+    console.log(response);
+    if (response.data.token) {
+      const token: string = response.data.token;
+      this.storeJwt(token);
+    }
   }
 
   getCurrentUser() {
