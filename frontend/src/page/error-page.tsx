@@ -9,7 +9,10 @@ export default function ErrorPage() {
     <Result
       status="error"
       title="Sorry, an unexpected error has occurred."
-      subTitle={error.statusText || error.message}
+      subTitle={
+        (error as Error)?.message ||
+        (error as { statusText?: string })?.statusText
+      }
       extra={<Button type="primary">Back Home</Button>}
     />
   );
