@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 interface FieldType {
-  firstName?: string;
-  lastName?: string;
-  username?: string;
-  password?: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
 }
 
 export default function RegisterPage() {

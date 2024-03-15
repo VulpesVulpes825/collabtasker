@@ -4,16 +4,18 @@ import { jwtDecode } from "jwt-decode";
 
 const API_URL = "http://localhost:5173/api/v1/auth/";
 
-class AuthService {
+interface JwtPayload {
+  token: string;
+}
 
+class AuthService {
   cookies: Cookies = new Cookies();
 
   async login(username: string, password: string) {
-    const response = await axios
-      .post(API_URL + "authenticate", {
-        username,
-        password
-      });
+    const response = await axios.post<JwtPayload>(API_URL + "authenticate", {
+      username,
+      password,
+    });
     console.log(response);
     if (response.data.token) {
       const token: string = response.data.token;
@@ -25,21 +27,25 @@ class AuthService {
     const decoded = jwtDecode(token);
     console.log(decoded);
     this.cookies.set("jwt_authorization", token, {
-      expires: new Date(decoded.exp * 1000)
+      expires: new Date(decoded.exp! * 1000),
     });
   }
-
 
   logout() {
     this.cookies.remove("jwt_authorization");
   }
 
-  async register(username: string, firstName: string, lastName: string, password: string) {
-    const response = await axios.post(API_URL + "register", {
+  async register(
+    username: string,
+    firstName: string,
+    lastName: string,
+    password: string,
+  ) {
+    const response = await axios.post<JwtPayload>(API_URL + "register", {
       username,
       firstName,
       lastName,
-      password
+      password,
     });
     console.log(response);
     if (response.data.token) {

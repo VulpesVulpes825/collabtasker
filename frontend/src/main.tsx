@@ -6,8 +6,7 @@ import "./index.css";
 import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews, useInitial } from "./dev";
 import { ErrorPage, RegisterPage } from "./page";
-import { PrivateRoutes } from "./route/privateRoutes.tsx";
-import { PublicRoutes } from "./route/publicRoutes.tsx";
+import { PrivateRoutes, PublicRoutes } from "./route";
 
 const router = createBrowserRouter([
   {

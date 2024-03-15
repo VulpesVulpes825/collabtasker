@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 interface FieldType {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
 }
 
 export default function LoginPage() {
@@ -14,13 +14,16 @@ export default function LoginPage() {
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
-    AuthService.login(values.username, values.password).then(() => {
+    AuthService.login(values.username, values.password)
+      .then(() => {
         navigate("/dashboard");
-      }
-    ).catch(console.error("Something went wrong"));
+      })
+      .catch(console.error("Something went wrong"));
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
+  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
+    errorInfo,
+  ) => {
     console.log("Failed:", errorInfo);
   };
 
