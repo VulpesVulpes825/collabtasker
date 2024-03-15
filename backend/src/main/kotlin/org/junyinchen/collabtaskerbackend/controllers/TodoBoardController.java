@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,27 @@ public class TodoBoardController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         log.info("User {} has access to Todo Board {}", authentication.getName(), board.getId());
+        return ResponseEntity.ok(responseBuilder(board));
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<BoardResponse> create(@RequestBody BoardRequest request) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info(
+                "User {} is trying to create a new Todo Board named {}",
+                username,
+                request.getTitle());
+        TodoBoard board = TodoBoard.builder().title(request.getTitle()).build();
+        boardService.saveBoard(board);
+        boardService.addBoardToUser(username, board.getId());
+        return ResponseEntity.ok(
+                BoardResponse.builder()
+                        .title(board.getTitle())
+                        .items(Collections.emptyList())
+                        .build());
+    }
+
+    private BoardResponse responseBuilder(TodoBoard board) {
         List<ItemResponse> items =
                 board.getItems().stream()
                         .map(
@@ -52,7 +74,6 @@ public class TodoBoardController {
                                                 .util(a.getUtilTimestamp())
                                                 .build())
                         .toList();
-        return ResponseEntity.ok(
-                BoardResponse.builder().title(board.getTitle()).items(items).build());
+        return BoardResponse.builder().title(board.getTitle()).items(items).build();
     }
 }
