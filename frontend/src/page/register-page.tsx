@@ -5,19 +5,23 @@ import { useNavigate } from "react-router-dom";
 const { Title } = Typography;
 
 interface FieldType {
+  firstName?: string;
+  lastName?: string;
   username?: string;
   password?: string;
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     console.log("Success:", values);
-    AuthService.login(values.username, values.password).then(() => {
+    AuthService.register(values.username, values.firstName, values.lastName, values.password).then(() => {
         navigate("/dashboard");
       }
-    ).catch(console.error("Something went wrong"));
+    ).catch(function(error) {
+      console.log(error);
+    });
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
@@ -26,7 +30,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Title>Login</Title>
+      <Title>Sign Up</Title>
       <Form
         name="basic"
         labelCol={{ span: 8 }}
@@ -37,6 +41,20 @@ export default function LoginPage() {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
+        <Form.Item<FieldType>
+          label="First Name"
+          name="firstName"
+          rules={[{ required: true, message: "Please input your first name!" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item<FieldType>
+          label="Last Name"
+          name="lastName"
+          rules={[{ required: true, message: "Please input your last name!" }]}
+        >
+          <Input />
+        </Form.Item>
         <Form.Item<FieldType>
           label="Username"
           name="username"

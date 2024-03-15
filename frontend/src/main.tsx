@@ -5,8 +5,9 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews, useInitial } from "./dev";
-import ErrorPage from "./page/error-page.tsx";
-import LoginPage from "./page/login-page.tsx";
+import { ErrorPage, RegisterPage } from "./page";
+import { PrivateRoutes } from "./route/privateRoutes.tsx";
+import { PublicRoutes } from "./route/publicRoutes.tsx";
 
 const router = createBrowserRouter([
   {
@@ -15,12 +16,21 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: "/test",
-    element: <App />
+    path: "/login",
+    element: <PublicRoutes />
   },
   {
-    path: "/login",
-    element: <LoginPage />
+    path: "/signup",
+    element: <RegisterPage />
+  },
+  {
+    element: <PrivateRoutes />,
+    children: [
+      {
+        path: "/dashboard",
+        element: <App />
+      }
+    ]
   }
 ]);
 
