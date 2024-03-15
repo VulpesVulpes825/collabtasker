@@ -10,6 +10,7 @@ import org.junyinchen.collabtaskerbackend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -38,7 +39,9 @@ public class UserServiceImpl implements UserService {
         log.info("Adding role {} to user {}", roleName, username);
         User user = userRepository.findByUsername(username).orElseThrow();
         Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+        Collection<Role> roles = user.getRoles();
+        roles.add(role);
+        user.setRoles(roles);
     }
 
     @Override

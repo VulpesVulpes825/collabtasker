@@ -3,7 +3,6 @@ package org.junyinchen.collabtaskerbackend.models;
 import jakarta.persistence.*;
 
 import lombok.*;
-import lombok.extern.java.Log;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -11,13 +10,10 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.Instant;
 import java.util.UUID;
 
-@Log
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
 public class TodoItem {
     /** The id of the item in UUID */
     @Id
@@ -25,10 +21,10 @@ public class TodoItem {
     private UUID id;
 
     /** The tile of the item */
-    @NonNull private String title = "";
+    @NonNull private String title;
 
     /** The context user put in the item */
-    @NonNull private String content = "";
+    private String content;
 
     /** Auto generated created time */
     @CreationTimestamp private Instant createdOn;
@@ -40,4 +36,9 @@ public class TodoItem {
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date utilTimestamp;
+
+    private boolean isComplete = false;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private TodoBoard board;
 }
