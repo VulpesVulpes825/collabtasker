@@ -33,6 +33,7 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void addBoardToUser(String username, long boardId) {
         log.info("Adding Todo Board {} to user {}", username, boardId);
+        TodoBoard board = boardRepository.findById(boardId).orElseThrow();
         Role role =
                 Role.builder()
                         .name("ROLE_BOARD_" + boardId)
@@ -40,6 +41,7 @@ public class BoardServiceImpl implements BoardService {
                         .build();
         roleRepository.save(role);
         userService.addRoleToUser(username, role.getName());
+        board.setRole(role);
     }
 
     @Override
