@@ -1,11 +1,10 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import AuthService from "../helper/authentication.ts";
-import LoginPage from "../page/login-page.tsx";
 
 export const PublicRoutes = () => {
   const location = useLocation();
   if (AuthService.isLoggedIn()) {
     return <Navigate to="/dashboard" replace state={{ from: location }} />;
   }
-  return <LoginPage />;
+  return <Outlet />;
 };
