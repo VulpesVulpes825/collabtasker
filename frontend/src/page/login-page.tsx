@@ -18,7 +18,9 @@ export default function LoginPage() {
       .then(() => {
         navigate("/dashboard");
       })
-      .catch(console.error("Something went wrong"));
+      .catch((error) => {
+        console.error("Something went wrong: " + error);
+      });
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
