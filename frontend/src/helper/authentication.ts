@@ -1,7 +1,6 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
-import { Simulate } from "react-dom/test-utils";
 
 const API_URL = "http://localhost:5173/api/v1/auth/";
 
@@ -61,6 +60,8 @@ class AuthService {
     const jwt = this.getJwt();
     if (jwt) {
       const decoded = jwtDecode(jwt);
+      console.log(jwt);
+      console.log(decoded);
       return decoded.sub;
     }
 
