@@ -36,6 +36,7 @@ public class AuthenticationService {
                         .build();
         repository.save(user);
         var jwtToken = jwtService.generateToken(user);
+        log.info("user {} is registered", request.getUsername());
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 

@@ -3,6 +3,7 @@ package org.junyinchen.collabtaskerbackend.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.junyinchen.collabtaskerbackend.helper.TodoHelper;
 import org.junyinchen.collabtaskerbackend.models.*;
 import org.junyinchen.collabtaskerbackend.services.ItemServie;
 import org.junyinchen.collabtaskerbackend.services.UserService;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class TodoItemController {
     private final UserService userService;
     private final ItemServie itemServie;
+    private final TodoHelper todoHelper;
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemResponse> getById(@PathVariable String id) {
@@ -34,7 +36,7 @@ public class TodoItemController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         log.info("User {} has access to Todo Item {}", username, id);
-        return ResponseEntity.ok(responseBuilder(item));
+        return ResponseEntity.ok(todoHelper.responseBuilder(item));
     }
 
     @PostMapping("/")
