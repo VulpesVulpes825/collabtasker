@@ -3,8 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import { ErrorPage, LoginPage, RegisterPage } from "./page";
+import { BoardPage, ErrorPage, LoginPage, Logout, RegisterPage } from "./page";
 import { PrivateRoutes, PublicRoutes } from "./route";
+import BoardService from "./helper/board-service.ts";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,19 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <App />,
+      },
+      {
+        path: "/logout",
+        element: <Logout />,
+      },
+      {
+        path: "/boards/:id",
+        loader: ({ params }) => {
+          console.log(params.id);
+          return BoardService.getBoard(params.id);
+        },
+        element: <BoardPage />,
+        errorElement: <ErrorPage />,
       },
     ],
   },

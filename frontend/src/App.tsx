@@ -1,9 +1,7 @@
 import "./App.css";
 
-import TodoBoard from "./component/todo-board.tsx";
-
 function App() {
-  return <TodoBoard></TodoBoard>;
+  return <h1>Welcome to Dashboard</h1>;
 }
 
 export default App;
