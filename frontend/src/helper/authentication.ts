@@ -1,6 +1,7 @@
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
+import { Simulate } from "react-dom/test-utils";
 
 const API_URL = "http://localhost:5173/api/v1/auth/";
 
@@ -32,7 +33,9 @@ class AuthService {
   }
 
   logout() {
-    this.cookies.remove("jwt_authorization");
+    return new Promise(() => {
+      this.cookies.remove("jwt_authorization");
+    });
   }
 
   async register(
@@ -55,14 +58,39 @@ class AuthService {
   }
 
   getCurrentUser() {
-    const userStr = this.cookies.get("jwt_authorization");
-    if (userStr) return userStr;
+    const jwt = this.getJwt();
+    if (jwt) {
+      const decoded = jwtDecode(jwt);
+      return decoded.sub;
+    }
 
     return null;
   }
 
-  isLoggedIn() {
-    return this.cookies.get("jwt_authorization") !== undefined;
+  getJwt() {
+    return this.cookies.get("jwt_authorization");
+  }
+
+  isLoggedIn(): boolean {
+    const jwt = this.getJwt();
+    if (jwt) {
+      const expiration = jwtDecode(jwt).exp! * 1000;
+      const currentDate = new Date();
+      if (expiration < currentDate.getTime()) {
+        this.logout()
+          .then(() => {
+            return false;
+          })
+          .catch((error) => {
+            console.error(error);
+            return false;
+          });
+      } else {
+        return true;
+      }
+    } else {
+      return false;
+    }
   }
 }
 
