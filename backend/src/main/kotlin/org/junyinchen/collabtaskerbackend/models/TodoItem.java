@@ -27,6 +27,12 @@ public class TodoItem {
     /** The context user put in the item */
     private String content;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User owner;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User assignee;
+
     /** Auto generated created time */
     @CreationTimestamp private Instant createdOn;
 
@@ -36,7 +42,7 @@ public class TodoItem {
     /** The user set due date of the item, optional */
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date utilTimestamp;
+    private java.util.Date until;
 
     private boolean isComplete = false;
 

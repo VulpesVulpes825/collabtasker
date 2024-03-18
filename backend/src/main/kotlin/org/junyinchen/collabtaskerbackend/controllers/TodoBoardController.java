@@ -62,17 +62,7 @@ public class TodoBoardController {
     private BoardResponse responseBuilder(TodoBoard board) {
         List<ItemResponse> items =
                 board.getItems().stream()
-                        .map(
-                                a ->
-                                        ItemResponse.builder()
-                                                .id(a.getId())
-                                                .title(a.getTitle())
-                                                .content(a.getContent())
-                                                .isComplete(a.isComplete())
-                                                .createdOn(Date.from(a.getCreatedOn()))
-                                                .lastUpdatedOn(Date.from(a.getLastUpdatedOn()))
-                                                .util(a.getUtilTimestamp())
-                                                .build())
+                        .map(a -> ItemResponse.builder().id(a.getId()).title(a.getTitle()).build())
                         .toList();
         return BoardResponse.builder().title(board.getTitle()).items(items).build();
     }
