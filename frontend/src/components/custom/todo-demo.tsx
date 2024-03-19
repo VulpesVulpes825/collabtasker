@@ -1,6 +1,5 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
 import TodoItem from "@/components/custom/todo-item.tsx";
-import { ArrowLeft, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -11,58 +10,49 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import BoardService from "@/helper/board-service.ts";
-import ItemService from "@/helper/item-service.ts";
 
-export default function BoardPage() {
-  const data = useLoaderData();
-  const navigate = useNavigate();
-
+export default function TodoDemo() {
   const [inputValue, setInputValue] = useState("");
-  const [tasks, setTasks] = useState(data.items);
+  const [tasks, setTasks] = useState([
+    {
+      id: "1",
+      title: "New Test",
+      content: null,
+      createdOn: null,
+      lastUpdatedOn: null,
+      util: null,
+      complete: false,
+    },
+    {
+      id: "2",
+      title: "A sample Todo",
+      content: null,
+      createdOn: null,
+      lastUpdatedOn: null,
+      util: null,
+      complete: false,
+    },
+  ]);
 
   function addItem(): void {
-    BoardService.setItem(data.id, inputValue)
-      .then((response) => {
-        const data = response.data;
-        const newTask = {
-          id: data.id,
-          key: data.id,
-        };
-        setTasks([...tasks, newTask]);
-        setInputValue("");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const newTask = {
+      id: tasks.length + 1,
+      title: inputValue,
+    };
+    setTasks([...tasks, newTask]);
+    setInputValue("");
   }
 
   function removeItem(id: string): void {
-    console.log("Clicked");
-    ItemService.deleteItem(id)
-      .then(() => {
-        setTasks(tasks.filter((task) => task.id !== id));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen lg:px-8">
+    <div className="flex flex-col items-center justify-center lg:px-8">
       <Card>
-        <CardHeader className="space-y-1">
+        <CardHeader className="space-y-1 text-center text-lg">
           <CardTitle className="flex text-2xl items-center">
-            <Button
-              type="submit"
-              variant="ghost"
-              onClick={() => {
-                navigate("/dashboard");
-              }}
-            >
-              <ArrowLeft />
-            </Button>
-            {data.title}
+            CollabTasker
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -70,8 +60,9 @@ export default function BoardPage() {
             <TodoItem
               key={todo.id}
               id={todo.id}
+              offlineTitle={todo.title}
               removeItem={removeItem}
-              online={true}
+              online={false}
             />
           ))}
         </CardContent>

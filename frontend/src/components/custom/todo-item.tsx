@@ -18,32 +18,40 @@ import { Label } from "../ui/label.tsx";
 
 interface props {
   id: string;
-  title: string;
+  offlineTitle: string;
   content: string;
   until: Date;
   complete: boolean;
   removeItem;
+  online: boolean;
 }
 
-export default function TodoItem({ id, removeItem }: props) {
+export default function TodoItem({
+  id,
+  removeItem,
+  online,
+  offlineTitle,
+}: props) {
   const [complete, setComplete] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(offlineTitle);
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState("");
   const [until, setUntil] = useState(undefined);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await ItemService.getItem(id);
-      const data = response.data;
-      setComplete(data.complete);
-      setTitle(data.title);
-      setContent(data.content);
-      setUntil(data.until);
-    };
-    fetchData().catch((error) => {
-      console.error(error);
-    });
+    if (online) {
+      const fetchData = async () => {
+        const response = await ItemService.getItem(id);
+        const data = response.data;
+        setComplete(data.complete);
+        setTitle(data.title);
+        setContent(data.content);
+        setUntil(data.until);
+      };
+      fetchData().catch((error) => {
+        console.error(error);
+      });
+    }
   }, []);
 
   function toggleFinished() {
@@ -59,8 +67,15 @@ export default function TodoItem({ id, removeItem }: props) {
   };
 
   const handleBlur = () => {
-    setIsEditing(false);
-    // Save the changes or perform any required actions here
+    if (online) {
+      ItemService.setItem(id, title, content, until, complete)
+        .then(setIsEditing(false))
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setIsEditing(false);
+    }
   };
 
   const handleChange = (event) => {
