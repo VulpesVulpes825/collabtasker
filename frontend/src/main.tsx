@@ -3,7 +3,13 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
-import { BoardPage, ErrorPage, LoginPage, Logout, RegisterPage } from "./page";
+import {
+  BoardPage,
+  ErrorPage,
+  LoginPage,
+  Logout,
+  RegisterPage,
+} from "./components/pages";
 import { PrivateRoutes, PublicRoutes } from "./route";
 import BoardService from "./helper/board-service.ts";
 

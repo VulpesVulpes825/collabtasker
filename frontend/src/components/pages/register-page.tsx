@@ -1,4 +1,4 @@
-import AuthService from "../helper/authentication.ts";
+import AuthService from "@/helper/authentication.ts";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -11,10 +11,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form.tsx";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button.tsx";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from "../ui/form.tsx";
+import { Input } from "../ui/input.tsx";
+import { Button } from "../ui/button.tsx";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card.tsx";
 
 const formSchema = z.object({
   username: z.string().min(2, {
