@@ -27,6 +27,7 @@ public class Role {
     private Collection<User> users;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Collection<Privilege> privileges;
 
     public Role(@NotNull String name) {

@@ -58,7 +58,7 @@ public class TodoBoardController {
                 TodoItem.builder()
                         .title(request.getTitle())
                         .board(board)
-                        .owner(userService.getUser(username))
+                        .owner(userService.getUser(username).orElseThrow())
                         .build();
         itemServie.saveItem(item);
         itemServie.addItemToBoard(item.getId(), board.getId());

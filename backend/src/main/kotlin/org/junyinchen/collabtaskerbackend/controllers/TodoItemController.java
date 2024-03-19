@@ -29,7 +29,7 @@ public class TodoItemController {
     public ResponseEntity<ItemResponse> getById(@PathVariable String id) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("User {} is trying to access Todo Item {}", username, id);
-        User user = userService.getUser(username);
+        User user = userService.getUser(username).orElseThrow();
         TodoItem item = itemServie.getItem(UUID.fromString(id)).orElseThrow();
         if (!user.getRoles().contains(item.getBoard().getRole())) {
             log.info("User {} does not have access to Todo Item {}", username, id);
@@ -44,7 +44,7 @@ public class TodoItemController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UUID itemId = request.getId();
         log.info("User {} is trying to update Todo Item {}", username, itemId);
-        User user = userService.getUser(username);
+        User user = userService.getUser(username).orElseThrow();
         TodoItem item = itemServie.getItem(itemId).orElseThrow();
         TodoBoard board = item.getBoard();
         if (!user.getRoles().contains(board.getRole())) {

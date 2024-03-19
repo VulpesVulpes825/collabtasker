@@ -63,7 +63,13 @@ export default function BoardPage() {
             <Input
               type="test"
               placeholder="New Todo Item"
+              value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  addItem();
+                }
+              }}
             />
             <Button type="submit" onClick={addItem}>
               <Plus />

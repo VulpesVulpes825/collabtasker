@@ -35,7 +35,8 @@ public class User implements UserDetails {
     private boolean tokenExpired;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Role> roles;
+    @ToString.Exclude
+    private Collection<Role> roles = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

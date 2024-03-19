@@ -25,13 +25,10 @@ public class TodoHelper {
 
     public TodoBoard checkRole(long id, String username) {
         log.info("User {} is trying to access Todo Board {}", username, id);
-        User user = userService.getUser(username);
+        User user = userService.getUser(username).orElseThrow();
         TodoBoard board = boardService.getBoard(id);
         if (!user.getRoles().contains(board.getRole())) {
-            log.info(
-                    "User {} does not have access to Todo Board {}",
-                    username,
-                    board.getId());
+            log.info("User {} does not have access to Todo Board {}", username, board.getId());
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         log.info("User {} has access to Todo Board {}", username, board.getId());
