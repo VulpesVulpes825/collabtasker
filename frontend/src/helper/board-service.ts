@@ -33,6 +33,16 @@ class BoardService {
       this.config,
     );
   }
+
+  async setBoard(title: string) {
+    return await axios.post(
+      API_URL,
+      {
+        title,
+      },
+      this.config,
+    );
+  }
 }
 
 export default new BoardService();

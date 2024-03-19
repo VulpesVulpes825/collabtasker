@@ -56,11 +56,13 @@ public class TodoBoardController {
                 "User {} is trying to create a new Todo Board named {}",
                 username,
                 request.getTitle());
-        TodoBoard board = TodoBoard.builder().title(request.getTitle()).build();
+        User user = userService.getUser(username).orElseThrow();
+        TodoBoard board = TodoBoard.builder().title(request.getTitle()).owner(user).build();
         boardService.saveBoard(board);
         boardService.addBoardToUser(username, board.getId());
         return ResponseEntity.ok(
                 BoardResponse.builder()
+                        .id(board.getId())
                         .title(board.getTitle())
                         .items(Collections.emptyList())
                         .build());
