@@ -1,6 +1,6 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import TodoItem from "@/components/custom/todo-item.tsx";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -16,6 +16,7 @@ import ItemService from "@/helper/item-service.ts";
 
 export default function BoardPage() {
   const data = useLoaderData();
+  const navigate = useNavigate();
 
   const [inputValue, setInputValue] = useState("");
   const [tasks, setTasks] = useState(data.items);
@@ -51,7 +52,18 @@ export default function BoardPage() {
     <div className="flex flex-col items-center justify-center min-h-screen lg:px-8">
       <Card>
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl">{data.title}</CardTitle>
+          <CardTitle className="flex text-2xl items-center">
+            <Button
+              type="submit"
+              variant="ghost"
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              <ArrowLeft />
+            </Button>
+            {data.title}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {tasks.map((todo) => (
