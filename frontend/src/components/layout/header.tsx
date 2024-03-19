@@ -1,11 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "@/components/custom/theme-toggle.tsx";
 import { ListTodo } from "lucide-react";
 import { cn } from "@/components/lib/utils";
 import AuthService from "@/helper/authentication";
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+  const [LoggedIn, setLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setLoggedIn(AuthService.isLoggedIn());
+  }, []);
+
+  const logout = () => {
+    AuthService.logout();
+    setLoggedIn(false);
+    navigate("/");
+  };
+
   return (
     <div className="supports-backdrop-blur:bg-background/60 fixed left-0 right-0 top-0 z-20 border-b bg-background/95 backdrop-blur">
       <nav className="flex h-16 items-center justify-between px-4">
@@ -20,13 +34,15 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {AuthService.isLoggedIn() ? (
-            <p>Logged in</p>
+          {LoggedIn ? (
+            <Button size="sm" onClick={logout}>
+              Log out
+            </Button>
           ) : (
             <Button
               size="sm"
               onClick={() => {
-                <Link to="/login" />;
+                navigate("/login");
               }}
             >
               Sign In
