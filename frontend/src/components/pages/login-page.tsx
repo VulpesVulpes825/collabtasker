@@ -26,7 +26,11 @@ const formSchema = z.object({
   }),
 });
 
-export default function LoginPage() {
+interface LoginPageProps {
+  setLoggedIn: (value: ((prevState: boolean) => boolean) | boolean) => void;
+}
+
+export default function LoginPage({ setLoggedIn }: Readonly<LoginPageProps>) {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -41,6 +45,7 @@ export default function LoginPage() {
     console.log("Success:", values);
     AuthService.login(values.username, values.password)
       .then(() => {
+        setLoggedIn(true);
         navigate("/dashboard");
       })
       .catch((error) => {
