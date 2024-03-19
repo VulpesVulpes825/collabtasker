@@ -7,10 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.junyinchen.collabtaskerbackend.models.Role;
 import org.junyinchen.collabtaskerbackend.models.TodoBoard;
+import org.junyinchen.collabtaskerbackend.models.User;
 import org.junyinchen.collabtaskerbackend.repositories.BoardRepository;
 import org.junyinchen.collabtaskerbackend.repositories.RoleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,6 +50,19 @@ public class BoardServiceImpl implements BoardService {
     public TodoBoard getBoard(long boardId) {
         log.info("Fetching Todo Board {}", boardId);
         return boardRepository.findById(boardId).orElseThrow();
+    }
+
+    @Override
+    public User getOwner(long boardId) {
+        log.info("Fetching Owner of Todo Board {}", boardId);
+        TodoBoard board = boardRepository.findById(boardId).orElseThrow();
+        return board.getOwner();
+    }
+
+    @Override
+    public Collection<User> getMembers(long boardId) {
+        TodoBoard board = boardRepository.findById(boardId).orElseThrow();
+        return board.getMembers();
     }
 
     @Override

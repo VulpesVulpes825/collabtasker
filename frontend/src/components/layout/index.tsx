@@ -4,17 +4,16 @@ import { useEffect, useState } from "react";
 
 interface LayoutProps {
   loggedIn: boolean;
-  setLoggedIn: (value: ((prevState: boolean) => boolean) | boolean) => void;
 }
 
-export default function Layout({ loggedIn, setLoggedIn }: LayoutProps) {
+export default function Layout({ loggedIn }: LayoutProps) {
   const [login, setLogin] = useState(loggedIn);
   useEffect(() => {
     setLogin(loggedIn);
   }, [loggedIn]);
   return (
     <>
-      <Header loggedIn={login} setLoggedIn={setLoggedIn} />
+      <Header loggedIn={login} />
       <div className="flex h-screen border-collapse overflow-hidden">
         <main className="flex-1 overflow-y-auto overflow-x-hidden pt-16 bg-secondary/10 pb-1">
           <Outlet />

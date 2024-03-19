@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 interface HeaderProps {
-  setLoggedIn: (value: ((prevState: boolean) => boolean) | boolean) => void;
+  loggedIn: boolean;
 }
 
-export default function Header({ loggedIn, setLoggedIn }) {
+export default function Header({ loggedIn }: HeaderProps) {
   const navigate = useNavigate();
   const [login, setLogin] = useState(loggedIn);
 
@@ -24,7 +24,6 @@ export default function Header({ loggedIn, setLoggedIn }) {
         <Button
           size="sm"
           onClick={() => {
-            setLoggedIn(false);
             navigate("/logout");
           }}
         >
