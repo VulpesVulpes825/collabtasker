@@ -12,6 +12,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardResponse {
+    private long id;
     private String title;
     private Collection<ItemResponse> items;
 }

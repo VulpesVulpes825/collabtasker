@@ -13,12 +13,19 @@ class BoardService {
   };
 
   async getBoard(index: number) {
-    console.log(this.jwt);
-    console.log(AuthService.getCurrentUser());
     const response = await axios.get(API_URL + index, this.config);
-    console.log(response);
     console.log(response.data);
     return response.data;
+  }
+
+  async setItem(boardId: number, title: string) {
+    return await axios.post(
+      API_URL + boardId + "/item",
+      {
+        title,
+      },
+      this.config,
+    );
   }
 }
 

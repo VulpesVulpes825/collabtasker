@@ -11,6 +11,7 @@ import org.junyinchen.collabtaskerbackend.repositories.BoardRepository;
 import org.junyinchen.collabtaskerbackend.repositories.ItemRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,7 +39,12 @@ public class ItemServiceImpl implements ItemServie {
     }
 
     @Override
-    public TodoItem getItem(UUID id) {
-        return itemRepository.findById(id).orElseThrow();
+    public Optional<TodoItem> getItem(UUID id) {
+        return itemRepository.findById(id);
+    }
+
+    @Override
+    public void deleteItem(TodoItem item) {
+        itemRepository.delete(item);
     }
 }

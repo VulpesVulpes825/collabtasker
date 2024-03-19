@@ -13,7 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -30,7 +30,7 @@ public class TodoItemController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("User {} is trying to access Todo Item {}", username, id);
         User user = userService.getUser(username);
-        TodoItem item = itemServie.getItem(UUID.fromString(id));
+        TodoItem item = itemServie.getItem(UUID.fromString(id)).orElseThrow();
         if (!user.getRoles().contains(item.getBoard().getRole())) {
             log.info("User {} does not have access to Todo Item {}", username, id);
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
@@ -45,7 +45,7 @@ public class TodoItemController {
         UUID itemId = request.getId();
         log.info("User {} is trying to update Todo Item {}", username, itemId);
         User user = userService.getUser(username);
-        TodoItem item = itemServie.getItem(itemId);
+        TodoItem item = itemServie.getItem(itemId).orElseThrow();
         TodoBoard board = item.getBoard();
         if (!user.getRoles().contains(board.getRole())) {
             log.info("User {} does not have access to Todo Board {}", username, board.getId());
@@ -60,18 +60,23 @@ public class TodoItemController {
         }
         item.setComplete(request.isComplete());
         itemServie.saveItem(item);
-        return ResponseEntity.ok(responseBuilder(item));
+        return ResponseEntity.ok(todoHelper.responseBuilder(item));
     }
 
-    private ItemResponse responseBuilder(TodoItem item) {
-        return ItemResponse.builder()
-                .id(item.getId())
-                .title(item.getTitle())
-                .content(item.getContent())
-                .isComplete(item.isComplete())
-                .createdOn(Date.from(item.getCreatedOn()))
-                .lastUpdatedOn(Date.from(item.getLastUpdatedOn()))
-                .util(item.getUntil())
-                .build();
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable String id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("User {} try to delete Todo Item {}", username, id);
+        Optional<TodoItem> existingItem = itemServie.getItem(UUID.fromString(id));
+        if (existingItem.isPresent()) {
+            TodoItem item = existingItem.get();
+            TodoBoard board = todoHelper.checkRole(item.getBoard().getId(), username);
+            board.getItems().remove(item);
+            itemServie.deleteItem(item);
+            log.info("Todo Item {} is deleted", id);
+            return ResponseEntity.ok().build();
+        }
+        log.error("Todo Item {} is not found", id);
+        return ResponseEntity.notFound().build();
     }
 }
