@@ -10,8 +10,6 @@ import org.junyinchen.collabtaskerbackend.models.User;
 import org.junyinchen.collabtaskerbackend.services.BoardService;
 import org.junyinchen.collabtaskerbackend.services.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,19 +23,18 @@ public class TodoHelper {
     private final UserService userService;
     private final BoardService boardService;
 
-    public TodoBoard checkRole(long id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("User {} is trying to access Todo Board {}", authentication.getName(), id);
-        User user = userService.getUser(authentication.getName());
+    public TodoBoard checkRole(long id, String username) {
+        log.info("User {} is trying to access Todo Board {}", username, id);
+        User user = userService.getUser(username);
         TodoBoard board = boardService.getBoard(id);
         if (!user.getRoles().contains(board.getRole())) {
             log.info(
                     "User {} does not have access to Todo Board {}",
-                    authentication.getName(),
+                    username,
                     board.getId());
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        log.info("User {} has access to Todo Board {}", authentication.getName(), board.getId());
+        log.info("User {} has access to Todo Board {}", username, board.getId());
         return board;
     }
 

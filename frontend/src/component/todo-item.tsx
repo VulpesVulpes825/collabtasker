@@ -1,8 +1,9 @@
 import { Card, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import ItemService from "../helper/item-service.ts";
+import { Button } from "@/components/ui/button.tsx";
 
 interface props {
   id: string;
@@ -10,17 +11,14 @@ interface props {
   content: string;
   until: Date;
   complete: boolean;
+  removeItem;
 }
 
-export default function TodoItem({ id }: props) {
+export default function TodoItem({ id, removeItem }: props) {
   const [complete, setComplete] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [until, setUntil] = useState(undefined);
-
-  const setData = async () => {
-    ItemService.setItem(id, title, content, until, complete);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,19 +35,22 @@ export default function TodoItem({ id }: props) {
   }, []);
 
   function toggleFinished() {
-    setComplete(!complete);
-    ItemService.setItem(id, title, content, until, !complete);
+    ItemService.setItem(id, title, content, until, !complete)
+      .then(setComplete(!complete))
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
   return (
-    <>
-      <Card className="min-w-80">
-        <CardTitle className="flex items-center justify-between text-xl">
-          <Checkbox checked={complete} onCheckedChange={toggleFinished} />
-          {complete ? <del>{title}</del> : title}
+    <Card className="min-w-80 p-3 m-2">
+      <CardTitle className="flex items-center justify-between text-xl">
+        <Checkbox checked={complete} onCheckedChange={toggleFinished} />
+        {complete ? <del className="text-slate-400">{title}</del> : title}
+        <Button variant="outline" size="icon" onClick={() => removeItem(id)}>
           <TrashIcon />
-        </CardTitle>
-      </Card>
-    </>
+        </Button>
+      </CardTitle>
+    </Card>
   );
 }

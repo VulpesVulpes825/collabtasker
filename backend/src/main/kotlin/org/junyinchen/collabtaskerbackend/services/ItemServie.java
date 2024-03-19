@@ -2,6 +2,7 @@ package org.junyinchen.collabtaskerbackend.services;
 
 import org.junyinchen.collabtaskerbackend.models.TodoItem;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ItemServie {
@@ -9,5 +10,7 @@ public interface ItemServie {
 
     void addItemToBoard(UUID id, long boardId);
 
-    TodoItem getItem(UUID id);
+    Optional<TodoItem> getItem(UUID id);
+
+    void deleteItem(TodoItem item);
 }

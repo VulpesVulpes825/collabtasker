@@ -3,18 +3,16 @@ package org.junyinchen.collabtaskerbackend.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.junyinchen.collabtaskerbackend.helper.TodoHelper;
 import org.junyinchen.collabtaskerbackend.models.*;
 import org.junyinchen.collabtaskerbackend.services.BoardService;
+import org.junyinchen.collabtaskerbackend.services.ItemServie;
 import org.junyinchen.collabtaskerbackend.services.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -24,22 +22,14 @@ import java.util.List;
 public class TodoBoardController {
     private final BoardService boardService;
     private final UserService userService;
+    private final TodoHelper todoHelper;
+    private final ItemServie itemServie;
 
     @GetMapping("/{id}")
     public ResponseEntity<BoardResponse> getById(@PathVariable String id) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        log.info("User {} is trying to access Todo Board {}", authentication.getName(), id);
-        User user = userService.getUser(authentication.getName());
-        TodoBoard board = boardService.getBoard(Long.parseLong(id));
-        if (!user.getRoles().contains(board.getRole())) {
-            log.info(
-                    "User {} does not have access to Todo Board {}",
-                    authentication.getName(),
-                    board.getId());
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-        }
-        log.info("User {} has access to Todo Board {}", authentication.getName(), board.getId());
-        return ResponseEntity.ok(responseBuilder(board));
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(
+                responseBuilder(todoHelper.checkRole(Long.parseLong(id), username)));
     }
 
     @PostMapping("/")
@@ -59,11 +49,31 @@ public class TodoBoardController {
                         .build());
     }
 
+    @PostMapping("/{id}/item")
+    public ResponseEntity<ItemResponse> createItem(
+            @RequestBody ItemRequest request, @PathVariable String id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        TodoBoard board = todoHelper.checkRole(Long.parseLong(id), username);
+        TodoItem item =
+                TodoItem.builder()
+                        .title(request.getTitle())
+                        .board(board)
+                        .owner(userService.getUser(username))
+                        .build();
+        itemServie.saveItem(item);
+        itemServie.addItemToBoard(item.getId(), board.getId());
+        return ResponseEntity.ok(todoHelper.responseBuilder(item));
+    }
+
     private BoardResponse responseBuilder(TodoBoard board) {
         List<ItemResponse> items =
                 board.getItems().stream()
                         .map(a -> ItemResponse.builder().id(a.getId()).title(a.getTitle()).build())
                         .toList();
-        return BoardResponse.builder().title(board.getTitle()).items(items).build();
+        return BoardResponse.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .items(items)
+                .build();
     }
 }

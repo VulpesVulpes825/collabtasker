@@ -58,6 +58,10 @@ class ItemService {
     console.log(response.data);
     return response.data;
   }
+
+  async deleteItem(id: string) {
+    return await axios.delete(API_URL + id, this.config);
+  }
 }
 
 export default new ItemService();
