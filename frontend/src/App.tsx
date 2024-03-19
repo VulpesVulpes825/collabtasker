@@ -13,6 +13,7 @@ import Layout from "@/components/layout";
 import { useState } from "react";
 import AuthService from "@/helper/authentication.ts";
 import { ThemeProvider } from "@/components/custom/theme-provider.tsx";
+import Dashboard from "@/components/pages/dashboard.tsx";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(AuthService.isLoggedIn());
@@ -44,7 +45,10 @@ export default function App() {
           children: [
             {
               path: "/dashboard",
-              element: <h1>Welcome</h1>,
+              loader: () => {
+                return BoardService.getBoards();
+              },
+              element: <Dashboard />,
             },
             {
               path: "/logout",

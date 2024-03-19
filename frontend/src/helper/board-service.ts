@@ -18,6 +18,12 @@ class BoardService {
     return response.data;
   }
 
+  async getBoards() {
+    const response = await axios.get(API_URL, this.config);
+    console.log(response.data);
+    return response.data;
+  }
+
   async setItem(boardId: number, title: string) {
     return await axios.post(
       API_URL + boardId + "/item",
