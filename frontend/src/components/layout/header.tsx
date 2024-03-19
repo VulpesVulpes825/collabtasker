@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { ThemeToggle } from "@/components/custom/theme-toggle.tsx";
 import { ListTodo } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import AuthService from "@/helper/authentication.ts";
@@ -27,15 +26,24 @@ export default function Header({ loggedIn }: HeaderProps) {
       );
     } else {
       return (
-        <Button
-          size="sm"
-          onClick={() => {
-            console.log("Clicked");
-            navigate("/login");
-          }}
-        >
-          Sign in
-        </Button>
+        <>
+          <Button
+            size="sm"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            Sign up
+          </Button>
+          <Button
+            size="sm"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            Log in
+          </Button>
+        </>
       );
     }
   }
@@ -45,13 +53,11 @@ export default function Header({ loggedIn }: HeaderProps) {
       <nav className="flex h-16 items-center justify-between px-4">
         <Link
           to={login ? "/dashboard" : "/"}
-          className="hidden items-center justify-between gap-2 md:flex"
+          className="items-center justify-between gap-2 flex-row flex"
         >
           <ListTodo className="h-6 w-6" />
           <h1 className="text-lg font-semibold">CollabTasker</h1>
         </Link>
-        <div className={cn("block md:!hidden")}>{/*<MobileSidebar />*/}</div>
-
         <div className="flex items-center gap-2">
           <ThemeToggle />
           {getButton()}
