@@ -12,13 +12,14 @@ import BoardService from "./helper/board-service.ts";
 import Layout from "@/components/layout";
 import { useState } from "react";
 import AuthService from "@/helper/authentication.ts";
+import { ThemeProvider } from "@/components/custom/theme-provider.tsx";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(AuthService.isLoggedIn());
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout loggedIn={loggedIn} setLoggedIn={setLoggedIn} />,
+      element: <Layout loggedIn={loggedIn} />,
       errorElement: <ErrorPage />,
       children: [
         {
@@ -64,6 +65,11 @@ export default function App() {
   ]);
 
   return (
-    <RouterProvider router={router} fallbackElement={<p>Initial Load...</p>} />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider
+        router={router}
+        fallbackElement={<p>Initial Load...</p>}
+      />
+    </ThemeProvider>
   );
 }

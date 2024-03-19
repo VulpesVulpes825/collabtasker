@@ -80,8 +80,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
                         .lastName("Test")
                         .password(passwordEncoder.encode("test"))
                         .roles(List.of(userRole, boardRole))
+                        .ownedBoard(Collections.singletonList(board))
                         .enabled(true)
                         .build();
+        board.setOwner(user);
         userRepository.save(user);
         alreadySetup = true;
     }

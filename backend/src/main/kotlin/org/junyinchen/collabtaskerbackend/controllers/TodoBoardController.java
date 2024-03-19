@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,22 @@ public class TodoBoardController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(
                 responseBuilder(todoHelper.checkRole(Long.parseLong(id), username)));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<BoardsResponse>> getAllBoard() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("User {} is trying get all boards", username);
+        Collection<TodoBoard> boards = userService.getAllBoards(username);
+        return ResponseEntity.ok(
+                boards.stream()
+                        .map(
+                                a ->
+                                        BoardsResponse.builder()
+                                                .id(a.getId())
+                                                .title(a.getTitle())
+                                                .build())
+                        .toList());
     }
 
     @PostMapping("/")

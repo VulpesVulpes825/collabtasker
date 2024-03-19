@@ -10,18 +10,11 @@ export default function Logout({ setLoggedIn }: Readonly<LogoutProps>) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    AuthService.logout()
-      .then(() => {
-        console.log("Logged out");
-        setLoggedIn(false);
-        navigate("/");
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoggedIn(false);
-        navigate("/");
-      });
-  }, [navigate]);
+    AuthService.logout();
+    console.log("Logged out");
+    setLoggedIn(false);
+    navigate("/");
+  }, []);
 
-  return <Navigate to="/login" />;
+  return <Navigate to="/" />;
 }

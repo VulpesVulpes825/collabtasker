@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.junyinchen.collabtaskerbackend.models.Role;
+import org.junyinchen.collabtaskerbackend.models.TodoBoard;
 import org.junyinchen.collabtaskerbackend.models.User;
 import org.junyinchen.collabtaskerbackend.repositories.RoleRepository;
 import org.junyinchen.collabtaskerbackend.repositories.UserRepository;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +52,27 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUser(String username) {
         log.info("Fetching user {}", username);
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Collection<TodoBoard> getOwnedBoards(String username) {
+        log.info("Fetching all boards owned by user {}", username);
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return user.getOwnedBoard();
+    }
+
+    @Override
+    public Collection<TodoBoard> getMemberBoards(String username) {
+        log.info("Fetching all boards that user {} is a member", username);
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return user.getBoards();
+    }
+
+    @Override
+    public Collection<TodoBoard> getAllBoards(String username) {
+        log.info("Fetching all boards that user {} is a part of", username);
+        return Stream.concat(getOwnedBoards(username).stream(), getMemberBoards(username).stream())
+                .toList();
     }
 
     @Override

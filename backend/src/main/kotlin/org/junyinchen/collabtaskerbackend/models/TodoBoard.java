@@ -19,7 +19,16 @@ public class TodoBoard {
     @NonNull private String title;
 
     @OneToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Collection<TodoItem> items;
 
-    @OneToOne private Role role;
+    @OneToOne @ToString.Exclude private Role role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private User owner;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private Collection<User> members;
 }

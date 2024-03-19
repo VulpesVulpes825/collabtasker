@@ -36,7 +36,14 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @ToString.Exclude
-    private Collection<Role> roles = new ArrayList<>();
+    private Collection<Role> roles;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+    @ToString.Exclude
+    private Collection<TodoBoard> ownedBoard;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "members")
+    private Collection<TodoBoard> boards;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
