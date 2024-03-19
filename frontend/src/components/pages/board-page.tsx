@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router-dom";
-import TodoItem from "@/components/ui/todo-item";
+import TodoItem from "@/components/custom/todo-item.tsx";
 import { Plus } from "lucide-react";
 import {
   Card,
@@ -11,8 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import BoardService from "../../helper/board-service.ts";
-import ItemService from "../../helper/item-service.ts";
+import BoardService from "@/helper/board-service.ts";
+import ItemService from "@/helper/item-service.ts";
 
 export default function BoardPage() {
   const data = useLoaderData();

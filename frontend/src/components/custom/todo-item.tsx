@@ -1,9 +1,9 @@
-import { Card, CardTitle } from "./card.tsx";
-import { Checkbox } from "./checkbox.tsx";
+import { Card, CardTitle } from "../ui/card.tsx";
+import { Checkbox } from "../ui/checkbox.tsx";
 import { Pencil, TrashIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import ItemService from "../../helper/item-service.ts";
-import { Button } from "./button.tsx";
+import { Button } from "../ui/button.tsx";
 import {
   Dialog,
   DialogContent,
@@ -12,9 +12,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "./dialog.tsx";
-import { Input } from "./input.tsx";
-import { Label } from "./label.tsx";
+} from "../ui/dialog.tsx";
+import { Input } from "../ui/input.tsx";
+import { Label } from "../ui/label.tsx";
 
 interface props {
   id: string;
