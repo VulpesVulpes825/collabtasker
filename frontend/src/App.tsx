@@ -3,10 +3,11 @@ import "./index.css";
 import {
   BoardPage,
   ErrorPage,
+  IndexPage,
   LoginPage,
   Logout,
   RegisterPage,
-} from "./components/pages";
+} from "@/components/pages";
 import { PrivateRoutes, PublicRoutes } from "./route";
 import BoardService from "./helper/board-service.ts";
 import Layout from "@/components/layout";
@@ -24,12 +25,12 @@ export default function App() {
       errorElement: <ErrorPage />,
       children: [
         {
-          index: true,
-          element: <h1>Hello</h1>,
-        },
-        {
           element: <PublicRoutes />,
           children: [
+            {
+              index: true,
+              element: <IndexPage />,
+            },
             {
               path: "/signup",
               element: <RegisterPage />,

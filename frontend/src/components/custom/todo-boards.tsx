@@ -1,12 +1,14 @@
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
 import AuthService from "@/helper/authentication.ts";
 import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
+import { Button } from "@/components/ui/button.tsx";
 
 export default function TodoBoards() {
   const data = useLoaderData();
@@ -15,7 +17,7 @@ export default function TodoBoards() {
   const [boards, setBoards] = useState(data);
 
   return (
-    <Card>
+    <Card className="min-w-96">
       <CardHeader>
         <CardTitle>{username} &apos;s board</CardTitle>
       </CardHeader>
@@ -30,6 +32,9 @@ export default function TodoBoards() {
           </Card>
         ))}
       </CardContent>
+      <CardFooter>
+        <Button className="min-w-full">+</Button>
+      </CardFooter>
     </Card>
   );
 }
