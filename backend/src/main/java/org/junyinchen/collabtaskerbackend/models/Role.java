@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import lombok.*;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Collection;
@@ -30,7 +29,7 @@ public class Role {
     @ToString.Exclude
     private Collection<Privilege> privileges;
 
-    public Role(@NotNull String name) {
+    public Role(@NonNull String name) {
         this.name = name;
     }
 

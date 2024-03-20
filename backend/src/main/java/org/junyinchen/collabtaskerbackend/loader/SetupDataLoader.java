@@ -2,9 +2,9 @@ package org.junyinchen.collabtaskerbackend.loader;
 
 import jakarta.transaction.Transactional;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import org.jetbrains.annotations.NotNull;
 import org.junyinchen.collabtaskerbackend.models.Role;
 import org.junyinchen.collabtaskerbackend.models.TodoBoard;
 import org.junyinchen.collabtaskerbackend.models.TodoItem;
@@ -48,7 +48,7 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
     @Override
     @Transactional
-    public void onApplicationEvent(@NotNull ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
         if (alreadySetup) {
             return;
         }
