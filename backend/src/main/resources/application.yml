@@ -14,3 +14,7 @@ spring:
   security:
     user:
       password: Test12345_
+  docker:
+    compose:
+      skip:
+        in-tests: false
