@@ -3,6 +3,7 @@ package org.junyinchen.collabtaskerbackend.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.junyinchen.collabtaskerbackend.exceptions.IncorrectAgeValueException;
 import org.junyinchen.collabtaskerbackend.models.Role;
 import org.junyinchen.collabtaskerbackend.models.TodoBoard;
 import org.junyinchen.collabtaskerbackend.models.User;
@@ -79,5 +80,13 @@ public class UserServiceImpl implements UserService {
     public List<User> getUsers() {
         log.info("Fetching all users");
         return userRepository.findAll();
+    }
+
+    @Override
+    public boolean isAdult(int age) throws IncorrectAgeValueException {
+        if (age <= 0) {
+            throw new IncorrectAgeValueException("Age should not be zero or negative");
+        }
+        return age >= 18;
     }
 }
