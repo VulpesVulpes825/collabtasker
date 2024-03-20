@@ -18,7 +18,7 @@ export default function ErrorPage() {
           <i>{error.statusText || error.message}</i>
         </p>
         <Button>
-          <Link to="/dashboard">Back Home</Link>
+          <Link to="/">Back Home</Link>
         </Button>
       </div>
     </div>

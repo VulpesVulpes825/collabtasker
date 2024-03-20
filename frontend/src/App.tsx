@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import {
   BoardPage,
@@ -18,7 +18,7 @@ import Dashboard from "@/components/pages/dashboard.tsx";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(AuthService.isLoggedIn());
-  const router = createBrowserRouter([
+  const router = createHashRouter([
     {
       path: "/",
       element: <Layout loggedIn={loggedIn} />,
