@@ -18,7 +18,7 @@ class RoleRepositoryTest implements DatabaseContainerInitializer {
     @Autowired TestEntityManager testEntityManager;
 
     @Test
-    void savePrivilege() {
+    void testFindByName() {
         String name = "test";
         Role newRole = Role.builder().name(name).build();
         roleRepository.save(newRole);

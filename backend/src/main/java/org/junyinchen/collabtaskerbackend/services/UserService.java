@@ -1,5 +1,6 @@
 package org.junyinchen.collabtaskerbackend.services;
 
+import org.junyinchen.collabtaskerbackend.exceptions.IncorrectAgeValueException;
 import org.junyinchen.collabtaskerbackend.models.Role;
 import org.junyinchen.collabtaskerbackend.models.TodoBoard;
 import org.junyinchen.collabtaskerbackend.models.User;
@@ -24,4 +25,6 @@ public interface UserService {
     Collection<TodoBoard> getAllBoards(String username);
 
     List<User> getUsers();
+
+    boolean isAdult(int age) throws IncorrectAgeValueException;
 }
