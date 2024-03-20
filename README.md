@@ -12,7 +12,8 @@ Collabtasker is a full-stack web application that allows users to create and man
 
 
 ## Screenshots
-
+![Home page with light mode](screenshot/light.png)
+![Home page with dark mode](screenshot/dark.png)
 
 ## Technologies
 I used `react.js`, `tailwindcss`, `typescript`, and `shadcn-ui` for my front end.
