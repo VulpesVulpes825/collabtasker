@@ -1,8 +1,5 @@
-# Foobar
-
-Collabtasker is a full stack web application for multiple users to add Todo items to their Todo boards.
-
 # Collabtasker
+Collabtasker is a full stack web application for multiple users to add Todo items to their Todo boards.
 
 ## Demo link:
 Access my site at the [project's github page](https://vulpesvulpes825.github.io/collabtasker/#/)
