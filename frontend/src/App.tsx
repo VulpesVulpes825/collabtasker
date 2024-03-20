@@ -15,6 +15,7 @@ import { useState } from "react";
 import AuthService from "@/helper/authentication.ts";
 import { ThemeProvider } from "@/components/custom/theme-provider.tsx";
 import Dashboard from "@/components/pages/dashboard.tsx";
+import SettingPage from "@/components/pages/setting/setting-page.tsx";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(AuthService.isLoggedIn());
@@ -62,6 +63,10 @@ export default function App() {
                 return BoardService.getBoard(params.id);
               },
               element: <BoardPage />,
+            },
+            {
+              path: "/setting",
+              element: <SettingPage />,
             },
           ],
         },

@@ -21,9 +21,7 @@ export default function Header({ loggedIn }: HeaderProps) {
 
   function getButton() {
     if (login) {
-      return (
-        <UserNav user={AuthService.getCurrentUser()} setLogout={setLogin} />
-      );
+      return <UserNav user={AuthService.getFullName()} setLogout={setLogin} />;
     } else {
       return (
         <>

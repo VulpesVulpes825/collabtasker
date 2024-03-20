@@ -60,9 +60,37 @@ class AuthService {
     const jwt = this.getJwt();
     if (jwt) {
       const decoded = jwtDecode(jwt);
-      console.log(jwt);
-      console.log(decoded);
       return decoded.sub;
+    }
+
+    return null;
+  }
+
+  getFullName() {
+    const jwt = this.getJwt();
+    if (jwt) {
+      const decoded = jwtDecode(jwt);
+      return `${decoded.given_name} ${decoded.family_name}`;
+    }
+
+    return null;
+  }
+
+  getFirstName() {
+    const jwt = this.getJwt();
+    if (jwt) {
+      const decoded = jwtDecode(jwt);
+      return decoded.given_name;
+    }
+
+    return null;
+  }
+
+  getLastName() {
+    const jwt = this.getJwt();
+    if (jwt) {
+      const decoded = jwtDecode(jwt);
+      return decoded.family_name;
     }
 
     return null;

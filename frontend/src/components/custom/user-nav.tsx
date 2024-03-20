@@ -6,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { LogOut, User as UserIcon } from "lucide-react";
+import { LogOut, Settings, User as UserIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -34,6 +34,18 @@ export function UserNav({ user, setLogout }: Readonly<Props>) {
           </div>
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => {
+              navigate("/setting");
+            }}
+          >
+            <Settings className="mr-2 h-4 w-4" aria-hidden="true" />
+            Setting
+          </Button>
+        </DropdownMenuItem>
         <DropdownMenuItem asChild>
           <Button
             variant="outline"
