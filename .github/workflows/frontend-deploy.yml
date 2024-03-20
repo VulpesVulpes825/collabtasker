@@ -36,7 +36,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
@@ -61,7 +61,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: production-files
-          path: ./dist
+          path: ./frontend/dist
 
   deploy:
     name: Deploy
@@ -77,6 +77,8 @@ jobs:
         with:
           name: production-files
           path: ./dist
+      - name: Display structure of downloaded files
+        run: ls -R ./dist
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
