@@ -42,8 +42,10 @@ class UserServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {-10, 0, -15, -20})
     void givenAgeLessThan18_ShouldThrowException(int age) {
-        assertThrows(IncorrectAgeValueException.class, () -> {
-            userService.isAdult(age);
-        });
+        assertThrows(
+                IncorrectAgeValueException.class,
+                () -> {
+                    userService.isAdult(age);
+                });
     }
 }
