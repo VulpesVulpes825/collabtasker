@@ -12,7 +12,7 @@ class BoardService {
     },
   };
 
-  async getBoard(index: number) {
+  async getBoard(index: string | undefined) {
     const response = await axios.get(API_URL + index, this.config);
     console.log(response.data);
     return response.data;

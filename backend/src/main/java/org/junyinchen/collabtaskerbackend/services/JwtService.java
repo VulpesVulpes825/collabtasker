@@ -5,6 +5,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
+import lombok.RequiredArgsConstructor;
+
+import org.junyinchen.collabtaskerbackend.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +19,12 @@ import java.util.function.Function;
 import javax.crypto.SecretKey;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     private static final String SECRET_KEY = "K/3/O7YQ86fQSHSskgvWDOE559FYMcgOhKk/kogeLjs=";
+
+    private final UserService userService;
 
     public String extractUsername(String token) {
         return extractCliam(token, Claims::getSubject);
@@ -47,6 +53,9 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        User user = userService.getUser(userDetails.getUsername()).orElseThrow();
+        extraClaims.put("given_name", user.getFirstName());
+        extraClaims.put("family_name", user.getLastName());
         return Jwts.builder()
                 .claims()
                 .empty()

@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junyinchen.collabtaskerbackend.models.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,6 +60,10 @@ public class AuthenticationService {
                 userService
                         .getUser(request.getUsername())
                         .orElseThrow(); // TODO: Implement Exception
+        return refresh(user);
+    }
+
+    public AuthenticationResponse refresh(UserDetails user) {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
