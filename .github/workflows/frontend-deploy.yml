@@ -56,7 +56,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Building project
-        run: pnpm run build-no-check
+        run: pnpm run build-github
       - name: Uploading production-ready build files
         uses: actions/upload-artifact@v4
         with:
