@@ -17,7 +17,7 @@ export default function IndexPage() {
           todo. Customizable. Open Source. And of course, Dark Mode.
         </PageHeaderDescription>
         <PageActions>
-          <a href="https://vulpesvulpes825.github.io/collabtasker/">
+          <a href="https://github.com/VulpesVulpes825/collabtasker">
             <Button variant="outline">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
