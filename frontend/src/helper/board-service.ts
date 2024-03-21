@@ -1,7 +1,7 @@
 import AuthService from "./authentication.ts";
 import axios, { AxiosRequestConfig } from "axios";
 
-const API_URL = "http://localhost:5173/api/v1/boards/";
+const API_URL = "/api/v1/boards/";
 
 class BoardService {
   jwt: string = AuthService.getJwt();

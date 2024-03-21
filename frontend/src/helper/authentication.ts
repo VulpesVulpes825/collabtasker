@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
-const API_URL = "http://localhost:5173/api/v1/auth/";
+const API_URL = "/api/v1/auth/";
 
 interface JwtPayload {
   token: string;
