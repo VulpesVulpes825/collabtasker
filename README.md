@@ -13,17 +13,17 @@ Collabtasker is a full-stack web application that allows users to create and man
 ## Technologies
 
 Front End uses `react.js`, `tailwindcss`, `typescript`, and `shadcn-ui`.\
-Front End uses `Java`, `Spring Boot` for my back end.
+Back End uses `Java`, `Spring Boot`, `Spring Security`, `Spring REST`, and `JWT`.\
 The whole project is containerized using `docker` and `docker compose`
+
+## Setup
+
+- Download or clone the repository
+- Have [docker](https://docs.docker.com/get-docker/) installed
+- Run `docker compose up -d`
+- Visit `localhost:8000`
 
 ## Screenshots
 
 ![Home page with light mode](screenshot/light.png)
 ![Home page with dark mode](screenshot/dark.png)
-
-## Setup
-
-- Download or clone the repository
-- Have `docker` installed
-- Run `docker compose up -d`
-- Visit `localhost:8000`
