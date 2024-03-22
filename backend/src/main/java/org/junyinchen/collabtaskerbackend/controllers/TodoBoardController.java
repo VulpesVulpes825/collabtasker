@@ -16,6 +16,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Controller for managing boards, including CRUD operations for boards and their items. It uses
+ * {@link BoardService} and {@link UserService} for handling board and user-related operations,
+ * respectively, and {@link TodoHelper} for auxiliary functionality like role checking and response
+ * building.
+ */
 @RestController
 @RequestMapping("/api/v1/boards")
 @RequiredArgsConstructor
@@ -26,6 +32,12 @@ public class TodoBoardController {
     private final TodoHelper todoHelper;
     private final ItemServie itemServie;
 
+    /**
+     * Retrieves a board by its id.
+     *
+     * @param id the id of the board to retrieve
+     * @return a {@link ResponseEntity} containing the board response with status OK
+     */
     @GetMapping("/{id}")
     public ResponseEntity<BoardResponse> getById(@PathVariable String id) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -33,6 +45,11 @@ public class TodoBoardController {
                 responseBuilder(todoHelper.checkRole(Long.parseLong(id), username)));
     }
 
+    /**
+     * Retrieves all boards associated with the currently authenticated user.
+     *
+     * @return a {@link ResponseEntity} containing a list of boards responses with status OK
+     */
     @GetMapping("/")
     public ResponseEntity<List<BoardsResponse>> getAllBoard() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -49,6 +66,12 @@ public class TodoBoardController {
                         .toList());
     }
 
+    /**
+     * Creates a new board with the provided details.
+     *
+     * @param request the request containing the details for the new board
+     * @return a {@link ResponseEntity} containing the board response with status OK
+     */
     @PostMapping("/")
     public ResponseEntity<BoardResponse> create(@RequestBody BoardRequest request) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -68,6 +91,13 @@ public class TodoBoardController {
                         .build());
     }
 
+    /**
+     * Creates a new item in the specified board.
+     *
+     * @param request the request containing the details for the new item
+     * @param id the id of the board where the item will be added
+     * @return a {@link ResponseEntity} containing the item response with status OK
+     */
     @PostMapping("/{id}/item")
     public ResponseEntity<ItemResponse> createItem(
             @RequestBody ItemRequest request, @PathVariable String id) {
@@ -84,6 +114,12 @@ public class TodoBoardController {
         return ResponseEntity.ok(todoHelper.responseBuilder(item));
     }
 
+    /**
+     * Builds a {@link BoardResponse} from a {@link TodoBoard}.
+     *
+     * @param board the board to build the response from
+     * @return the board response
+     */
     private BoardResponse responseBuilder(TodoBoard board) {
         List<ItemResponse> items =
                 board.getItems().stream()
