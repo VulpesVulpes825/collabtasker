@@ -19,6 +19,12 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Component responsible for initializing the application with default data upon startup. It listens
+ * for {@link ContextRefreshedEvent} to ensure that the setup is only performed once after the
+ * application context is fully refreshed. This class sets up default roles, privileges, users,
+ * boards, and items in the application's database.
+ */
 @Component
 @Slf4j
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
@@ -30,6 +36,16 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final ItemRepository itemRepository;
     boolean alreadySetup = false;
 
+    /**
+     * Constructs a SetupDataLoader with the specified repositories and password encoder.
+     *
+     * @param userRepository the user repository for accessing user data
+     * @param roleRepository the role repository for accessing role data
+     * @param privilegeRepository the privilege repository for accessing privilege data
+     * @param passwordEncoder the password encoder for encoding passwords
+     * @param boardRepository the board repository for accessing board data
+     * @param itemRepository the item repository for accessing item data
+     */
     @Autowired
     public SetupDataLoader(
             UserRepository userRepository,
@@ -46,6 +62,12 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         this.itemRepository = itemRepository;
     }
 
+    /**
+     * Handles the {@link ContextRefreshedEvent}. It populates the database with initial data
+     * including roles, users, boards, and items if the setup has not already been done.
+     *
+     * @param event the context refreshed event that triggers the data loading
+     */
     @Override
     @Transactional
     public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {

@@ -12,6 +12,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+/**
+ * Service class for handling authentication-related functionalities including user registration,
+ * authentication, and JWT token refreshment. It leverages {@link UserService}, {@link
+ * PasswordEncoder}, {@link JwtService}, {@link AuthenticationManager}, {@link RoleService}, and
+ * {@link BoardService} to perform its duties.
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -24,6 +30,14 @@ public class AuthenticationService {
     private final RoleService roleService;
     private final BoardService boardService;
 
+    /**
+     * Registers a new user with the provided registration request details, assigns them a default
+     * role, creates a personal board for them, and generates a JWT token for immediate
+     * authentication.
+     *
+     * @param request the registration request containing user details
+     * @return an {@link AuthenticationResponse} with the generated JWT token
+     */
     public AuthenticationResponse register(RegisterRequest request) {
         log.info("Register user {}", request.getUsername());
         var user =
@@ -51,6 +65,13 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
+    /**
+     * Authenticates a user with the provided authentication request details. It checks the
+     * credentials and generates a new JWT token if authentication is successful.
+     *
+     * @param request the authentication request containing login credentials
+     * @return an {@link AuthenticationResponse} with the newly generated JWT token
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         log.info("Authenticating user {}", request.getUsername());
         authenticationManager.authenticate(
@@ -63,6 +84,13 @@ public class AuthenticationService {
         return refresh(user);
     }
 
+    /**
+     * Refreshes the JWT token for a given user. This can be used to generate a new token for
+     * continuous authentication without requiring the user to log in again.
+     *
+     * @param user the user details for whom the JWT token needs to be refreshed
+     * @return an {@link AuthenticationResponse} with the newly generated JWT token
+     */
     public AuthenticationResponse refresh(UserDetails user) {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
